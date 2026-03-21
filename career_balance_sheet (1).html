@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生涯決策平衡表 | @rhia_phd</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --coral-50: #FAECE7;
+    --coral-100: #F5C4B3;
+    --coral-200: #F0997B;
+    --coral-400: #D85A30;
+    --coral-600: #993C1D;
+    --coral-800: #712B13;
+    --teal-50: #E1F5EE;
+    --teal-100: #9FE1CB;
+    --teal-400: #1D9E75;
+    --teal-600: #0F6E56;
+    --teal-800: #085041;
+    --gray-50: #F1EFE8;
+    --gray-100: #D3D1C7;
+    --gray-200: #B4B2A9;
+    --gray-400: #888780;
+    --gray-600: #5F5E5A;
+    --gray-800: #444441;
+    --amber-50: #FAEEDA;
+    --amber-100: #FAC775;
+    --amber-400: #BA7517;
+    --amber-600: #854F0B;
+    --purple-50: #EEEDFE;
+    --purple-100: #CECBF6;
+    --purple-400: #7F77DD;
+    --purple-600: #534AB7;
+    --purple-800: #3C3489;
+    --blue-50: #E6F1FB;
+    --blue-400: #378ADD;
+    --blue-600: #185FA5;
+  }
+
+  body {
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #faf9f6;
+    color: #2c2c2a;
+    min-height: 100vh;
+  }
+
+  /* LOGIN SCREEN */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--coral-50) 0%, var(--teal-50) 100%);
+  }
+
+  .login-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    max-width: 420px;
+    width: 100%;
+    border: 1px solid var(--gray-100);
+    text-align: center;
+  }
+
+  .login-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: var(--coral-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 28px;
+  }
+
+  .login-card h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2c2c2a;
+    margin-bottom: 0.4rem;
+  }
+
+  .login-card p {
+    font-size: 14px;
+    color: var(--gray-600);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .login-card input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--gray-100);
+    border-radius: 10px;
+    font-size: 15px;
+    color: #2c2c2a;
+    background: var(--gray-50);
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 1rem;
+  }
+
+  .login-card input[type="text"]:focus {
+    border-color: var(--coral-400);
+    background: #fff;
+  }
+
+  .btn-primary {
+    background: var(--coral-400);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 2rem;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-primary:hover { background: var(--coral-600); }
+  .btn-primary:active { transform: scale(0.98); }
+
+  /* MAIN APP */
+  #app {
+    display: none;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  header {
+    background: #fff;
+    border-bottom: 1px solid var(--gray-100);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .header-left h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #2c2c2a;
+  }
+
+  .header-left span {
+    font-size: 12px;
+    color: var(--gray-400);
+  }
+
+  .user-badge {
+    background: var(--coral-50);
+    color: var(--coral-600);
+    border-radius: 20px;
+    padding: 0.35rem 1rem;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--coral-600);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  /* TABLE WRAPPER */
+  .table-wrapper {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--gray-100);
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 600px;
+  }
+
+  th {
+    background: var(--gray-50);
+    font-weight: 600;
+    padding: 0.75rem 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid var(--gray-100);
+    border-right: 1px solid var(--gray-100);
+    color: #2c2c2a;
+    white-space: nowrap;
+  }
+
+  th:first-child { text-align: left; min-width: 180px; }
+  th:last-child { border-right: none; }
+
+  td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--gray-50);
+    border-right: 1px solid var(--gray-50);
+    vertical-align: middle;
+  }
+
+  td:last-child { border-right: none; }
+  tr:last-child td { border-bottom: none; }
+
+  .criterion-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .criterion-name {
+    font-weight: 500;
+    color: #2c2c2a;
+    font-size: 13px;
+  }
+
+  .criterion-name input {
+    border: none;
+    background: transparent;
+    font-weight: 500;
+    color: #2c2c2a;
+    font-size: 13px;
+    font-family: inherit;
+    width: 100%;
+    outline: none;
+    padding: 0;
+  }
+
+  .criterion-desc {
+    font-size: 11px;
+    color: var(--gray-400);
+  }
+
+  .importance-cell {
+    text-align: center;
+  }
+
+  .importance-select {
+    border: 1px solid var(--gray-100);
+    border-radius: 6px;
+    padding: 0.2rem 0.4rem;
+    font-size: 12px;
+    color: var(--coral-600);
+    background: var(--coral-50);
+    cursor: pointer;
+    font-weight: 600;
+    outline: none;
+    width: 56px;
+  }
+
+  .score-input {
+    width: 52px;
+    border: 1px solid var(--gray-100);
+    border-radius: 6px;
+    padding: 0.25rem 0.4rem;
+    font-size: 13px;
+    text-align: center;
+    color: #2c2c2a;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .score-input:focus { border-color: var(--teal-400); }
+
+  .score-display {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal-600);
+    text-align: center;
+  }
+
+  /* TOTALS ROW */
+  .totals-row td {
+    background: var(--gray-50);
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    border-top: 2px solid var(--gray-200);
+  }
+
+  .totals-row td:first-child { text-align: left; color: var(--gray-600); }
+
+  /* OPTION HEADER */
+  .option-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .option-name-input {
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    color: var(--coral-800);
+    font-size: 13px;
+    font-family: inherit;
+    text-align: center;
+    width: 100%;
+    outline: none;
+    padding: 0;
+  }
+
+  .option-emoji {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  /* BUTTONS */
+  .add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px dashed var(--gray-200);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+    color: var(--gray-400);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .add-btn:hover {
+    border-color: var(--coral-400);
+    color: var(--coral-400);
+    background: var(--coral-50);
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .calc-btn {
+    background: var(--teal-400);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.7rem 1.5rem;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .calc-btn:hover { background: var(--teal-600); }
+  .calc-btn:active { transform: scale(0.98); }
+
+  .reset-btn {
+    background: transparent;
+    color: var(--gray-400);
+    border: 1px solid var(--gray-100);
+    border-radius: 10px;
+    padding: 0.7rem 1.5rem;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover { border-color: var(--gray-400); color: #2c2c2a; }
+
+  /* RESULTS */
+  #results {
+    display: none;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--gray-100);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .results-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #2c2c2a;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .result-card {
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    border: 1.5px solid transparent;
+  }
+
+  .result-card.rank-1 {
+    background: var(--teal-50);
+    border-color: var(--teal-400);
+  }
+
+  .result-card.rank-2 {
+    background: var(--coral-50);
+    border-color: var(--coral-200);
+  }
+
+  .result-card.rank-other {
+    background: var(--gray-50);
+    border-color: var(--gray-100);
+  }
+
+  .result-rank {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .rank-1 .result-rank { color: var(--teal-600); }
+  .rank-2 .result-rank { color: var(--coral-600); }
+  .rank-other .result-rank { color: var(--gray-400); }
+
+  .result-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2c2c2a;
+    margin-bottom: 6px;
+  }
+
+  .result-score {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .rank-1 .result-score { color: var(--teal-600); }
+  .rank-2 .result-score { color: var(--coral-400); }
+  .rank-other .result-score { color: var(--gray-400); }
+
+  .result-label { font-size: 11px; color: var(--gray-400); }
+
+  .ranking-summary {
+    background: var(--amber-50);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 13px;
+    color: var(--amber-600);
+    line-height: 1.7;
+    font-weight: 500;
+  }
+
+  .warm-note {
+    background: var(--purple-50);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-size: 13px;
+    color: var(--purple-800);
+    line-height: 1.7;
+    border-left: 3px solid var(--purple-400);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    font-size: 12px;
+    color: var(--gray-400);
+    border-top: 1px solid var(--gray-100);
+    background: #fff;
+  }
+
+  footer strong {
+    color: var(--coral-600);
+    font-weight: 600;
+  }
+
+  .th-add {
+    background: var(--gray-50);
+    border-left: 1px dashed var(--gray-200) !important;
+  }
+
+  .weighted-score {
+    font-size: 11px;
+    color: var(--teal-400);
+    font-weight: 500;
+  }
+
+  .del-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-200);
+    font-size: 14px;
+    padding: 0 4px;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+
+  .del-btn:hover { color: #E24B4A; }
+
+  @media (max-width: 640px) {
+    main { padding: 1rem; }
+    header { padding: 0.75rem 1rem; }
+    .login-card { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🌿</div>
+    <h1>生涯決策平衡表</h1>
+    <p>這裡沒有標準答案，只有最適合你的答案。<br>請先輸入你的名字，開始你的決策之旅。</p>
+    <input type="text" id="username-input" placeholder="請輸入你的名字…" maxlength="20" />
+    <button class="btn-primary" onclick="startApp()">開始 →</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:none; flex-direction:column; min-height:100vh;">
+
+  <header>
+    <div class="header-left">
+      <h2>生涯決策平衡表</h2>
+      <div><span id="header-subtitle">為你量身評估每一個選擇</span></div>
+    </div>
+    <div class="user-badge" id="user-badge">Hi, —</div>
+  </header>
+
+  <main>
+    <h1 id="page-title" style="font-size:20px;font-weight:700;color:#2c2c2a;margin-bottom:0.25rem;"></h1>
+    <p class="section-title" style="margin-bottom:1rem;">評估選項 × 生涯關鍵指標</p>
+
+    <div class="table-wrapper">
+      <table id="matrix-table">
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+        <tfoot id="table-foot"></tfoot>
+      </table>
+    </div>
+
+    <div class="btn-row">
+      <button class="add-btn" onclick="addCriterion()">＋ 新增評估項目（列）</button>
+      <button class="add-btn" onclick="addOption()">＋ 新增選項（欄）</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="calc-btn" onclick="calculate()">✦ 計算加權分數</button>
+      <button class="reset-btn" onclick="resetScores()">重置分數</button>
+    </div>
+
+    <div id="results"></div>
+  </main>
+
+  <footer>
+    <strong>@rhia_phd</strong> &nbsp;·&nbsp; 生涯諮詢 × 習慣養成 × 你的職涯顧問
+  </footer>
+</div>
+
+<script>
+/* ── state ── */
+const DEFAULT_CRITERIA = [
+  { name: "工作穩定性", desc: "就業保障、合約性質", importance: 4 },
+  { name: "薪資待遇",   desc: "月薪、年薪、獎金結構", importance: 5 },
+  { name: "通勤狀況",   desc: "距離、交通時間與方式", importance: 3 },
+  { name: "升遷發展空間", desc: "職涯晉升路徑與機會", importance: 4 },
+  { name: "工作生活平衡", desc: "工時、彈性、加班文化", importance: 5 },
+  { name: "職場人際環境", desc: "主管風格、團隊氛圍",  importance: 4 },
+  { name: "學習成長機會", desc: "技能培訓、挑戰性",   importance: 3 },
+  { name: "健康與福利",  desc: "保險、健檢、身心支持", importance: 4 },
+  { name: "社會認同感",  desc: "工作意義、使命感",    importance: 3 },
+  { name: "地點與遷移需求", desc: "是否需搬家或異地工作", importance: 3 },
+];
+
+let criteria = [];
+let options  = [];
+/* scores[cid][oid] = string value */
+let scores   = {};
+let userName = '';
+
+/* ── boot ── */
+document.getElementById('username-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startApp();
+});
+
+function startApp() {
+  const name = document.getElementById('username-input').value.trim();
+  if (!name) { alert('請先輸入你的名字 🌿'); return; }
+  userName = name;
+  document.getElementById('login-screen').style.display = 'none';
+  const app = document.getElementById('app');
+  app.style.display = 'flex';
+  document.getElementById('user-badge').textContent = 'Hi, ' + name + ' 👋';
+  document.getElementById('page-title').innerHTML = `<span style="color:var(--coral-400)">${name}</span> 的生涯決策平衡表`;
+  criteria = DEFAULT_CRITERIA.map((c, i) => ({ ...c, id: 'c' + i }));
+  options  = ['選項 A','選項 B','選項 C'].map((n, i) => ({ name: n, id: 'o' + i }));
+  scores   = {};
+  renderTable();
+}
+
+/* ── score helpers ── always read from DOM into scores{} before re-render ── */
+function collectScores() {
+  criteria.forEach(c => {
+    if (!scores[c.id]) scores[c.id] = {};
+    options.forEach(o => {
+      const el = document.getElementById(`score_${c.id}_${o.id}`);
+      if (el) scores[c.id][o.id] = el.value;
+    });
+  });
+}
+
+/* ── render (never wipes scores{}) ── */
+function renderTable() {
+  renderHead();
+  renderBody();
+  renderFoot();
+}
+
+function renderHead() {
+  const thead = document.getElementById('table-head');
+  let html = '<tr>';
+  html += '<th style="text-align:left;min-width:180px;">評估項目</th>';
+  html += '<th style="width:78px;">【重要度】<br><span style="font-size:10px;color:var(--gray-400);font-weight:400;">1–5分</span></th>';
+  options.forEach(opt => {
+    html += `<th>
+      <div class="option-header">
+        <span style="font-size:14px;">◎</span>
+        <input class="option-name-input" value="${esc(opt.name)}"
+          oninput="options.find(o=>o.id==='${opt.id}').name=this.value" />
+        <button class="del-btn" onclick="deleteOption('${opt.id}')" title="刪除此選項">✕</button>
+      </div>
+    </th>`;
+  });
+  html += '</tr>';
+  thead.innerHTML = html;
+}
+
+function renderBody() {
+  const tbody = document.getElementById('table-body');
+  let html = '';
+  criteria.forEach(c => {
+    if (!scores[c.id]) scores[c.id] = {};
+    html += `<tr id="row-${c.id}">`;
+    /* criterion label */
+    html += `<td>
+      <div class="criterion-cell">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <input value="${esc(c.name)}"
+            oninput="criteria.find(x=>x.id==='${c.id}').name=this.value"
+            style="border:none;background:transparent;font-weight:500;color:#2c2c2a;font-size:13px;font-family:inherit;width:100%;outline:none;padding:0;" />
+          <button class="del-btn" onclick="deleteCriterion('${c.id}')" title="刪除此項目">✕</button>
+        </div>
+        <span class="criterion-desc">${esc(c.desc)}</span>
+      </div>
+    </td>`;
+    /* importance */
+    html += `<td class="importance-cell">
+      <select class="importance-select" onchange="criteria.find(x=>x.id==='${c.id}').importance=+this.value">
+        ${[1,2,3,4,5].map(n=>`<option value="${n}"${n===c.importance?' selected':''}>${n}</option>`).join('')}
+      </select>
+    </td>`;
+    /* score cells – restore saved value */
+    options.forEach(opt => {
+      const saved = (scores[c.id] && scores[c.id][opt.id] != null && scores[c.id][opt.id] !== '') ? scores[c.id][opt.id] : '0';
+      html += `<td>
+        <input class="score-input" type="number" id="score_${c.id}_${opt.id}"
+          min="0" max="10" value="${esc(saved)}"
+          oninput="if(!scores['${c.id}'])scores['${c.id}']={};scores['${c.id}']['${opt.id}']=this.value" />
+      </td>`;
+    });
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function renderFoot() {
+  const tfoot = document.getElementById('table-foot');
+  let html = '<tr class="totals-row"><td>加權總分</td><td></td>';
+  options.forEach(opt => {
+    html += `<td id="total_${opt.id}">—</td>`;
+  });
+  html += '</tr>';
+  tfoot.innerHTML = html;
+}
+
+/* ── add / delete (collect before re-render) ── */
+function addCriterion() {
+  collectScores();
+  const id = 'c' + Date.now();
+  criteria.push({ id, name: '自訂項目', desc: '點擊名稱可編輯', importance: 3 });
+  scores[id] = {};
+  renderTable();
+}
+
+function addOption() {
+  collectScores();
+  const id = 'o' + Date.now();
+  options.push({ id, name: '新選項' });
+  renderTable();
+}
+
+function deleteOption(oid) {
+  if (options.length <= 1) { alert('至少保留一個選項'); return; }
+  collectScores();
+  options = options.filter(o => o.id !== oid);
+  criteria.forEach(c => { if (scores[c.id]) delete scores[c.id][oid]; });
+  renderTable();
+}
+
+function deleteCriterion(cid) {
+  if (criteria.length <= 1) { alert('至少保留一個評估項目'); return; }
+  collectScores();
+  criteria = criteria.filter(c => c.id !== cid);
+  delete scores[cid];
+  renderTable();
+}
+
+/* ── calculate ── */
+function calculate() {
+  collectScores();
+  const totals = {};
+  let valid = true;
+  options.forEach(opt => {
+    let total = 0;
+    criteria.forEach(c => {
+      const raw = (scores[c.id]||{})[opt.id];
+      const val = (raw === '' || raw == null) ? 0 : parseFloat(raw);
+      if (isNaN(val)) { valid = false; }
+      else total += val * c.importance;
+    });
+    totals[opt.id] = parseFloat(total.toFixed(1));
+  });
+
+  if (!valid) { alert('請填寫所有評分格位（0–10 分）再計算喔！'); return; }
+
+  options.forEach(opt => {
+    const el = document.getElementById(`total_${opt.id}`);
+    if (el) el.textContent = totals[opt.id];
+  });
+
+  showResults(totals);
+}
+
+function showResults(totals) {
+  const maxPossible = criteria.reduce((s, c) => s + c.importance * 10, 0);
+  const sorted = [...options].map(o => ({ ...o, score: totals[o.id] }))
+    .sort((a, b) => b.score - a.score);
+
+  let html = `<div class="results-title">✦ 評估結果</div><div class="results-grid">`;
+  sorted.forEach((item, i) => {
+    const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : 'rank-other';
+    const rankLabel = i === 0 ? '🏆 首選' : i === 1 ? '✦ 次選' : `第 ${i+1} 名`;
+    const pct = Math.round((item.score / maxPossible) * 100);
+    html += `<div class="result-card ${rankClass}">
+      <div class="result-rank">${rankLabel}</div>
+      <div class="result-name">${esc(item.name)}</div>
+      <div class="result-score">${item.score}</div>
+      <div class="result-label">加權總分 / 符合度 ${pct}%</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  let summary = `<div class="ranking-summary">根據你的評分與重要度設定，目前的選項優先順序為：`;
+  summary += sorted.map((it, i) => `<strong>${i+1}. ${it.name}（${it.score} 分）</strong>`).join('、') + '。';
+  if (sorted.length >= 2) {
+    const diff = (sorted[0].score - sorted[1].score).toFixed(1);
+    const pct1 = Math.round((sorted[0].score / maxPossible) * 100);
+    summary += ` 首選「${sorted[0].name}」以 ${diff} 分的差距領先次選，符合度達 ${pct1}%。`;
+  }
+  summary += `</div>`;
+
+  const note = `<div class="warm-note">
+    💜 這份平衡表是你思考的起點，不是終點。數字可以整理你的偏好，但它無法衡量你內心真正的渴望。<br>
+    如果你還有困惑、還在猶豫，那很正常——重要的決定本來就值得慢慢想。你隨時可以尋求專業的生涯諮詢，和顧問一起深聊，找到屬於你自己的答案。🌿
+  </div>`;
+
+  const pdfBtn = `<div style="margin-top:1rem;">
+    <button class="calc-btn" onclick="exportPDF()" style="background:var(--purple-400);">⬇ 下載 PDF 報告</button>
+  </div>`;
+
+  const results = document.getElementById('results');
+  results.innerHTML = html + summary + note + pdfBtn;
+  results.style.display = 'block';
+
+  /* store sorted for PDF */
+  results._sorted = sorted;
+  results._maxPossible = maxPossible;
+  results._totals = totals;
+
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── PDF：開新視窗列印，完整繁中，A4 滿版 ── */
+function exportPDF() {
+  collectScores();
+  const resultsEl = document.getElementById('results');
+  const sorted    = resultsEl._sorted      || [];
+  const maxP      = resultsEl._maxPossible || 1;
+  const totals    = resultsEl._totals      || {};
+  const date      = new Date().toLocaleDateString('zh-TW');
+
+  /* ── 評分矩陣表格 HTML ── */
+  const optCols = options.map(o => `<th>${o.name}</th>`).join('');
+  const bodyRows = criteria.map((c, ri) => {
+    const bg = ri % 2 === 0 ? '#fff' : '#f9f8f5';
+    const cells = options.map(o => {
+      const v = (scores[c.id]||{})[o.id];
+      return `<td>${(v === '' || v == null) ? '0' : v}</td>`;
+    }).join('');
+    return `<tr style="background:${bg}"><td class="cname">${c.name}</td><td class="center">${c.importance}</td>${cells}</tr>`;
+  }).join('');
+  const totalCells = options.map(o => `<td class="center total-val">${totals[o.id] ?? '—'}</td>`).join('');
+
+  /* ── 排名結果 ── */
+  const rankColors = ['#0f6e56','#993c1d','#5f5e5a'];
+  const rankBg     = ['#e1f5ee','#faece7','#f1efe8'];
+  const rankLabel  = ['🏆 首選','✦ 次選'];
+  const rankCards  = sorted.map((item, i) => {
+    const pct   = Math.round((item.score / maxP) * 100);
+    const label = rankLabel[i] || `第 ${i+1} 名`;
+    const color = rankColors[i] || '#888';
+    const bg    = rankBg[i]    || '#f5f5f5';
+    return `<div class="rank-card" style="border-color:${color};background:${bg}">
+      <div class="rank-label" style="color:${color}">${label}</div>
+      <div class="rank-name">${item.name}</div>
+      <div class="rank-score" style="color:${color}">${item.score}</div>
+      <div class="rank-pct">符合度 ${pct}%</div>
+    </div>`;
+  }).join('');
+
+  /* ── 排名說明文字 ── */
+  let summaryText = '根據你的評分與重要度設定，目前的選項優先順序為：';
+  summaryText += sorted.map((it, i) => `${i+1}. ${it.name}（${it.score} 分）`).join('、') + '。';
+  if (sorted.length >= 2) {
+    const diff = (sorted[0].score - sorted[1].score).toFixed(1);
+    const pct1 = Math.round((sorted[0].score / maxP) * 100);
+    summaryText += ` 首選「${sorted[0].name}」以 ${diff} 分的差距領先次選，符合度達 ${pct1}%。`;
+  }
+
+  /* ── 完整 A4 HTML ── */
+  const html = `<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>生涯決策平衡表｜${userName}</title>
+<style>
+  @page { size: A4 portrait; margin: 14mm 14mm 14mm 14mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', 'Apple LiGothic', sans-serif;
+    font-size: 9pt;
+    color: #2c2c2a;
+    background: #fff;
+    width: 100%;
+  }
+  /* ── header ── */
+  .hd { display: flex; justify-content: space-between; align-items: flex-end;
+        border-bottom: 2px solid #D85A30; padding-bottom: 6px; margin-bottom: 10px; }
+  .hd-title { font-size: 16pt; font-weight: 700; color: #D85A30; line-height: 1.1; }
+  .hd-sub   { font-size: 8pt; color: #888; margin-top: 2px; }
+  .hd-right { text-align: right; font-size: 8pt; color: #888; }
+
+  /* ── section title ── */
+  .sec { font-size: 9pt; font-weight: 700; color: #993C1D;
+         border-left: 3px solid #D85A30; padding-left: 6px; margin: 10px 0 5px; }
+
+  /* ── matrix table ── */
+  table { width: 100%; border-collapse: collapse; font-size: 8pt; table-layout: fixed; }
+  th {
+    background: #f1efe8; font-weight: 700; padding: 4px 5px;
+    border: 1px solid #d3d1c7; text-align: center; word-break: break-all;
+  }
+  th.chead { text-align: left; width: 90px; }
+  th.ihead { width: 36px; }
+  td { padding: 4px 5px; border: 1px solid #ebe9e2; vertical-align: middle; word-break: break-all; }
+  td.cname { font-weight: 500; text-align: left; }
+  td.center { text-align: center; }
+  .totals-row td {
+    background: #e1f5ee; font-weight: 700; text-align: center;
+    border-top: 2px solid #1D9E75; font-size: 9pt;
+  }
+  .totals-row td:first-child { text-align: left; color: #0f6e56; }
+  .totals-row td:nth-child(2) { background: #e1f5ee; }
+  .total-val { color: #0f6e56; }
+
+  /* ── rank cards ── */
+  .rank-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .rank-card {
+    flex: 1; min-width: 80px; border: 1.5px solid; border-radius: 8px;
+    padding: 7px 8px; text-align: center;
+  }
+  .rank-label { font-size: 8pt; font-weight: 700; margin-bottom: 2px; }
+  .rank-name  { font-size: 10pt; font-weight: 700; color: #2c2c2a; margin: 2px 0; }
+  .rank-score { font-size: 18pt; font-weight: 700; line-height: 1.1; }
+  .rank-pct   { font-size: 7.5pt; color: #888; margin-top: 2px; }
+
+  /* ── summary + note ── */
+  .summary {
+    background: #faeeda; border-radius: 6px; padding: 7px 10px;
+    font-size: 8.5pt; color: #854F0B; line-height: 1.6; margin-bottom: 7px;
+  }
+  .note {
+    background: #eeedfe; border-left: 3px solid #7F77DD;
+    border-radius: 0 6px 6px 0; padding: 7px 10px;
+    font-size: 8.5pt; color: #3C3489; line-height: 1.6;
+  }
+
+  /* ── footer ── */
+  .footer {
+    margin-top: 10px; border-top: 1px solid #d3d1c7; padding-top: 5px;
+    font-size: 7.5pt; color: #aaa; text-align: center;
+  }
+
+  /* 列印時隱藏按鈕 */
+  .print-btn { display: none; }
+  @media screen {
+    body { padding: 20px; background: #f5f5f0; }
+    .page { background: #fff; max-width: 794px; margin: 0 auto; padding: 20mm 14mm; box-shadow: 0 2px 12px rgba(0,0,0,.1); }
+    .print-btn {
+      display: block; margin: 0 auto 16px; background: #D85A30; color: #fff;
+      border: none; border-radius: 8px; padding: 10px 28px; font-size: 14px;
+      font-family: inherit; cursor: pointer; font-weight: 600;
+    }
+    .print-btn:hover { background: #993C1D; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">🖨 列印 / 另存為 PDF</button>
+<div class="page">
+
+  <div class="hd">
+    <div>
+      <div class="hd-title">生涯決策平衡表</div>
+      <div class="hd-sub">Career Decision Balance Sheet</div>
+    </div>
+    <div class="hd-right">
+      填寫者：${userName}<br>
+      製表日期：${date}<br>
+      @rhia_phd
+    </div>
+  </div>
+
+  <div class="sec">評分矩陣</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="chead">評估項目</th>
+        <th class="ihead">重要度<br>(1–5)</th>
+        ${optCols}
+      </tr>
+    </thead>
+    <tbody>${bodyRows}</tbody>
+    <tfoot>
+      <tr class="totals-row">
+        <td>加權總分</td><td></td>${totalCells}
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="sec">評估結果</div>
+  <div class="rank-row">${rankCards}</div>
+
+  <div class="summary">${summaryText}</div>
+  <div class="note">💜 這份平衡表是你思考的起點，不是終點。數字可以整理你的偏好，但它無法衡量你內心真正的渴望。如果你還有困惑、還在猶豫，那很正常——重要的決定本來就值得慢慢想。你隨時可以尋求專業的生涯諮詢，和顧問一起深聊，找到屬於你自己的答案。🌿</div>
+
+  <div class="footer">@rhia_phd &nbsp;·&nbsp; 生涯諮詢 × 習慣養成 × 你的職涯顧問 &nbsp;·&nbsp; 本表格僅供參考，不構成任何決策建議</div>
+</div>
+</body>
+</html>`;
+
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+}
+
+/* ── reset ── */
+function resetScores() {
+  scores = {};
+  document.querySelectorAll('.score-input').forEach(el => el.value = '');
+  options.forEach(opt => {
+    const el = document.getElementById(`total_${opt.id}`);
+    if (el) el.textContent = '—';
+  });
+  document.getElementById('results').style.display = 'none';
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── no data persists after tab close — nothing stored in localStorage/sessionStorage ── */
+</script>
+</body>
+</html>
