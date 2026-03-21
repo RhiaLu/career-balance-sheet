@@ -832,16 +832,15 @@ function exportPDF() {
   const date      = new Date().toLocaleDateString('zh-TW');
 
   /* ── 評分矩陣表格 HTML ── */
-  const cnameW = 88;   /* 評估項目欄 px */
-  const iheadW = 38;   /* 重要度欄 px   */
-  /* A4 可用寬約 762px（794 - 左右各 16px padding）*/
-  const tableW  = 762;
-  const optW    = Math.floor((tableW - cnameW - iheadW) / options.length);
+  /* 用百分比分配，不依賴像素估算 */
+  const cnameP = 22;  /* 評估項目欄 % */
+  const iheadP = 8;   /* 重要度欄 %   */
+  const optP   = parseFloat(((100 - cnameP - iheadP) / options.length).toFixed(4));
 
   const colgroup = `<colgroup>
-    <col style="width:${cnameW}px">
-    <col style="width:${iheadW}px">
-    ${options.map(() => `<col style="width:${optW}px">`).join('')}
+    <col style="width:${cnameP}%">
+    <col style="width:${iheadP}%">
+    ${options.map(() => `<col style="width:${optP}%">`).join('')}
   </colgroup>`;
 
   const optCols = options.map(o => `<th>${o.name}</th>`).join('');
