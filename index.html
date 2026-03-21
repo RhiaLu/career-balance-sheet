@@ -832,31 +832,49 @@ function exportPDF() {
   const date      = new Date().toLocaleDateString('zh-TW');
 
   /* ── 評分矩陣表格 HTML ── */
+  const cnameW = 88;   /* 評估項目欄 px */
+  const iheadW = 38;   /* 重要度欄 px   */
+  /* A4 可用寬約 762px（794 - 左右各 16px padding）*/
+  const tableW  = 762;
+  const optW    = Math.floor((tableW - cnameW - iheadW) / options.length);
+
+  const colgroup = `<colgroup>
+    <col style="width:${cnameW}px">
+    <col style="width:${iheadW}px">
+    ${options.map(() => `<col style="width:${optW}px">`).join('')}
+  </colgroup>`;
+
   const optCols = options.map(o => `<th>${o.name}</th>`).join('');
   const bodyRows = criteria.map((c, ri) => {
-    const bg = ri % 2 === 0 ? '#fff' : '#f9f8f5';
     const cells = options.map(o => {
       const v = (scores[c.id]||{})[o.id];
-      return `<td>${(v === '' || v == null) ? '0' : v}</td>`;
+      const n = (v === '' || v == null) ? 0 : parseFloat(v);
+      const cls = n >= 7 ? 'score-high' : n >= 4 ? 'score-mid' : 'score-low';
+      return `<td><span class="score-val ${cls}">${isNaN(n) ? '—' : n}</span></td>`;
     }).join('');
-    return `<tr style="background:${bg}"><td class="cname">${c.name}</td><td class="center">${c.importance}</td>${cells}</tr>`;
+    return `<tr><td class="cname">${c.name}</td><td class="icell" style="text-align:center">${c.importance}</td>${cells}</tr>`;
   }).join('');
-  const totalCells = options.map(o => `<td class="center total-val">${totals[o.id] ?? '—'}</td>`).join('');
+  const totalCells = options.map(o => `<td class="tval">${totals[o.id] ?? '—'}</td>`).join('');
 
   /* ── 排名結果 ── */
   const rankColors = ['#0f6e56','#993c1d','#5f5e5a'];
-  const rankBg     = ['#e1f5ee','#faece7','#f1efe8'];
+  const rankBg     = ['#e8f8f2','#fdf0eb','#f5f4f0'];
+  const rankBorder = ['#1D9E75','#D85A30','#888780'];
+  const rankBarClr = ['#1D9E75','#D85A30','#888780'];
   const rankLabel  = ['🏆 首選','✦ 次選'];
   const rankCards  = sorted.map((item, i) => {
     const pct   = Math.round((item.score / maxP) * 100);
     const label = rankLabel[i] || `第 ${i+1} 名`;
-    const color = rankColors[i] || '#888';
-    const bg    = rankBg[i]    || '#f5f5f5';
-    return `<div class="rank-card" style="border-color:${color};background:${bg}">
+    const color  = rankColors[i]  || '#888';
+    const bg     = rankBg[i]      || '#f5f5f5';
+    const border = rankBorder[i]  || '#ccc';
+    const barClr = rankBarClr[i]  || '#ccc';
+    return `<div class="rank-card" style="border-color:${border};background:${bg}">
       <div class="rank-label" style="color:${color}">${label}</div>
       <div class="rank-name">${item.name}</div>
       <div class="rank-score" style="color:${color}">${item.score}</div>
       <div class="rank-pct">符合度 ${pct}%</div>
+      <div class="rank-bar-wrap"><div class="rank-bar" style="width:${pct}%;background:${barClr}"></div></div>
     </div>`;
   }).join('');
 
@@ -876,7 +894,7 @@ function exportPDF() {
 <meta charset="UTF-8">
 <title>生涯決策平衡表｜${userName}</title>
 <style>
-  @page { size: A4 portrait; margin: 14mm 14mm 14mm 14mm; }
+  @page { size: A4 portrait; margin: 12mm 14mm 12mm 14mm; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', 'Apple LiGothic', sans-serif;
@@ -885,75 +903,135 @@ function exportPDF() {
     background: #fff;
     width: 100%;
   }
-  /* ── header ── */
-  .hd { display: flex; justify-content: space-between; align-items: flex-end;
-        border-bottom: 2px solid #D85A30; padding-bottom: 6px; margin-bottom: 10px; }
-  .hd-title { font-size: 16pt; font-weight: 700; color: #D85A30; line-height: 1.1; }
-  .hd-sub   { font-size: 8pt; color: #888; margin-top: 2px; }
-  .hd-right { text-align: right; font-size: 8pt; color: #888; }
 
-  /* ── section title ── */
-  .sec { font-size: 9pt; font-weight: 700; color: #993C1D;
-         border-left: 3px solid #D85A30; padding-left: 6px; margin: 10px 0 5px; }
+  /* ── header ── */
+  .hd {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 8px; margin-bottom: 12px;
+    border-bottom: 3px solid #D85A30;
+  }
+  .hd-left { display: flex; align-items: center; gap: 10px; }
+  .hd-accent {
+    width: 4px; height: 44px; background: #D85A30; border-radius: 2px; flex-shrink: 0;
+  }
+  .hd-title { font-size: 18pt; font-weight: 700; color: #2c2c2a; line-height: 1.1; }
+  .hd-name  { font-size: 10pt; color: #D85A30; font-weight: 600; margin-top: 2px; }
+  .hd-right { text-align: right; font-size: 7.5pt; color: #999; line-height: 1.8; }
+  .hd-brand { font-size: 8.5pt; font-weight: 700; color: #993C1D; }
+
+  /* ── section label ── */
+  .sec {
+    display: inline-block;
+    font-size: 8pt; font-weight: 700; color: #fff;
+    background: #993C1D; border-radius: 3px;
+    padding: 2px 8px; margin: 12px 0 6px;
+    letter-spacing: 0.05em;
+  }
 
   /* ── matrix table ── */
-  table { width: 100%; border-collapse: collapse; font-size: 8pt; table-layout: fixed; }
-  th {
-    background: #f1efe8; font-weight: 700; padding: 4px 5px;
-    border: 1px solid #d3d1c7; text-align: center; word-break: break-all;
+  table { width: 100%; border-collapse: collapse; font-size: 8.5pt; table-layout: fixed; }
+  thead tr th {
+    background: #3c2c28; color: #fff;
+    font-weight: 600; padding: 6px 6px;
+    border: 1px solid #3c2c28;
+    text-align: center; word-break: break-word;
+    vertical-align: middle; line-height: 1.4;
   }
-  th.chead { text-align: left; width: 90px; }
-  th.ihead { width: 36px; }
-  td { padding: 4px 5px; border: 1px solid #ebe9e2; vertical-align: middle; word-break: break-all; }
-  td.cname { font-weight: 500; text-align: left; }
-  td.center { text-align: center; }
+  thead tr th.chead { text-align: left; padding-left: 8px; }
+
+  tbody tr:nth-child(odd)  td { background: #fff; }
+  tbody tr:nth-child(even) td { background: #faf9f6; }
+  tbody tr:hover td { background: #fdf1ec; }
+
+  td {
+    padding: 5px 6px; border: 1px solid #e8e6e0;
+    vertical-align: middle; word-break: break-word;
+    text-align: center;
+  }
+  td.cname {
+    font-weight: 500; text-align: left; padding-left: 8px;
+    color: #2c2c2a; border-left: 3px solid #f0997b;
+  }
+  td.icell { color: #993C1D; font-weight: 700; }
+
+  /* score badge */
+  .score-val {
+    display: inline-block;
+    min-width: 28px; padding: 1px 5px;
+    border-radius: 10px; font-weight: 600; font-size: 8.5pt;
+  }
+  .score-high { background: #e1f5ee; color: #0f6e56; }
+  .score-mid  { background: #faeeda; color: #854F0B; }
+  .score-low  { background: #f1efe8; color: #5f5e5a; }
+
+  /* totals row */
   .totals-row td {
-    background: #e1f5ee; font-weight: 700; text-align: center;
-    border-top: 2px solid #1D9E75; font-size: 9pt;
+    background: #2c2c2a !important; color: #fff !important;
+    font-weight: 700; text-align: center;
+    font-size: 10pt; padding: 7px 6px;
+    border: 1px solid #2c2c2a;
   }
-  .totals-row td:first-child { text-align: left; color: #0f6e56; }
-  .totals-row td:nth-child(2) { background: #e1f5ee; }
-  .total-val { color: #0f6e56; }
+  .totals-row td.tlabel { text-align: left; padding-left: 8px; color: #fff !important; }
+  .totals-row td.tval   { color: #9FE1CB !important; font-size: 11pt; }
 
   /* ── rank cards ── */
-  .rank-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .rank-row { display: flex; gap: 10px; margin: 4px 0 10px; }
   .rank-card {
-    flex: 1; min-width: 80px; border: 1.5px solid; border-radius: 8px;
-    padding: 7px 8px; text-align: center;
+    flex: 1; border-radius: 8px; padding: 10px 8px;
+    text-align: center; border: 1.5px solid;
   }
-  .rank-label { font-size: 8pt; font-weight: 700; margin-bottom: 2px; }
-  .rank-name  { font-size: 10pt; font-weight: 700; color: #2c2c2a; margin: 2px 0; }
-  .rank-score { font-size: 18pt; font-weight: 700; line-height: 1.1; }
-  .rank-pct   { font-size: 7.5pt; color: #888; margin-top: 2px; }
+  .rank-label { font-size: 7.5pt; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 3px; }
+  .rank-name  { font-size: 11pt; font-weight: 700; color: #2c2c2a; margin: 3px 0 4px; line-height: 1.2; }
+  .rank-score { font-size: 22pt; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+  .rank-pct   { font-size: 7.5pt; color: #888; }
+  .rank-bar-wrap { margin: 5px auto 0; width: 70%; height: 4px; background: #e8e6e0; border-radius: 2px; }
+  .rank-bar { height: 4px; border-radius: 2px; }
 
-  /* ── summary + note ── */
+  /* ── summary ── */
   .summary {
-    background: #faeeda; border-radius: 6px; padding: 7px 10px;
-    font-size: 8.5pt; color: #854F0B; line-height: 1.6; margin-bottom: 7px;
+    background: #faf3e8; border-left: 3px solid #BA7517;
+    border-radius: 0 6px 6px 0; padding: 8px 12px;
+    font-size: 8.5pt; color: #633806; line-height: 1.7; margin-bottom: 8px;
   }
+  .summary strong { color: #854F0B; }
+
+  /* ── note ── */
   .note {
-    background: #eeedfe; border-left: 3px solid #7F77DD;
-    border-radius: 0 6px 6px 0; padding: 7px 10px;
-    font-size: 8.5pt; color: #3C3489; line-height: 1.6;
+    background: #f4f3fe; border-left: 3px solid #7F77DD;
+    border-radius: 0 6px 6px 0; padding: 8px 12px;
+    font-size: 8pt; color: #3C3489; line-height: 1.75;
   }
 
   /* ── footer ── */
   .footer {
-    margin-top: 10px; border-top: 1px solid #d3d1c7; padding-top: 5px;
-    font-size: 7.5pt; color: #aaa; text-align: center;
+    margin-top: 12px; padding-top: 6px;
+    border-top: 1px solid #d3d1c7;
+    font-size: 7pt; color: #bbb; text-align: center;
+    letter-spacing: 0.03em;
   }
 
-  /* 列印時隱藏按鈕 */
+  /* screen only */
   .print-btn { display: none; }
   @media screen {
-    body { padding: 20px; background: #f5f5f0; }
-    .page { background: #fff; max-width: 794px; margin: 0 auto; padding: 20mm 14mm; box-shadow: 0 2px 12px rgba(0,0,0,.1); }
+    body { padding: 24px 16px; background: #ede9e3; }
+    .page {
+      background: #fff; max-width: 794px; margin: 0 auto;
+      padding: 16mm 14mm;
+      box-shadow: 0 4px 24px rgba(0,0,0,.12);
+      border-radius: 4px;
+    }
     .print-btn {
-      display: block; margin: 0 auto 16px; background: #D85A30; color: #fff;
-      border: none; border-radius: 8px; padding: 10px 28px; font-size: 14px;
+      display: block; margin: 0 auto 20px;
+      background: #D85A30; color: #fff;
+      border: none; border-radius: 8px;
+      padding: 11px 32px; font-size: 14px;
       font-family: inherit; cursor: pointer; font-weight: 600;
+      letter-spacing: 0.03em;
     }
     .print-btn:hover { background: #993C1D; }
+  }
+  @media print {
+    .print-btn { display: none !important; }
   }
 </style>
 </head>
@@ -962,41 +1040,46 @@ function exportPDF() {
 <div class="page">
 
   <div class="hd">
-    <div>
-      <div class="hd-title">生涯決策平衡表</div>
-      <div class="hd-sub">Career Decision Balance Sheet</div>
+    <div class="hd-left">
+      <div class="hd-accent"></div>
+      <div>
+        <div class="hd-title">生涯決策平衡表</div>
+        <div class="hd-name">${userName} 的職涯選擇評估</div>
+      </div>
     </div>
     <div class="hd-right">
-      填寫者：${userName}<br>
       製表日期：${date}<br>
-      @rhia_phd
+      <span class="hd-brand">@rhia_phd</span>
     </div>
   </div>
 
-  <div class="sec">評分矩陣</div>
+  <div class="sec">▸ 評分矩陣</div>
   <table>
+    ${colgroup}
     <thead>
       <tr>
         <th class="chead">評估項目</th>
-        <th class="ihead">重要度<br>(1–5)</th>
+        <th>重要度<br>(1–5)</th>
         ${optCols}
       </tr>
     </thead>
     <tbody>${bodyRows}</tbody>
     <tfoot>
       <tr class="totals-row">
-        <td>加權總分</td><td></td>${totalCells}
+        <td class="tlabel">加權總分</td>
+        <td></td>
+        ${totalCells}
       </tr>
     </tfoot>
   </table>
 
-  <div class="sec">評估結果</div>
+  <div class="sec">▸ 評估結果</div>
   <div class="rank-row">${rankCards}</div>
 
   <div class="summary">${summaryText}</div>
   <div class="note">💜 這份平衡表是你思考的起點，不是終點。數字可以整理你的偏好，但它無法衡量你內心真正的渴望。如果你還有困惑、還在猶豫，那很正常——重要的決定本來就值得慢慢想。你隨時可以尋求專業的生涯諮詢，和顧問一起深聊，找到屬於你自己的答案。🌿</div>
 
-  <div class="footer">@rhia_phd &nbsp;·&nbsp; 生涯諮詢 × 習慣養成 × 你的職涯顧問 &nbsp;·&nbsp; 本表格僅供參考，不構成任何決策建議</div>
+  <div class="footer">@rhia_phd &nbsp;·&nbsp; 生涯諮詢 × 習慣養成 × 你的職涯顧問 &nbsp;·&nbsp; 本表格僅供參考，建議搭配專業諮詢使用</div>
 </div>
 </body>
 </html>`;
