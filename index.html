@@ -833,8 +833,8 @@ function exportPDF() {
 
   /* ── 評分矩陣表格 HTML ── */
   /* 用百分比分配，不依賴像素估算 */
-  const cnameP = 22;  /* 評估項目欄 % */
-  const iheadP = 8;   /* 重要度欄 %   */
+  const cnameP = 22;
+  const iheadP = 10;
   const optP   = parseFloat(((100 - cnameP - iheadP) / options.length).toFixed(4));
 
   const colgroup = `<colgroup>
@@ -1058,7 +1058,7 @@ function exportPDF() {
     <thead>
       <tr>
         <th class="chead">評估項目</th>
-        <th>重要度<br>(1–5)</th>
+        <th>重要度</th>
         ${optCols}
       </tr>
     </thead>
