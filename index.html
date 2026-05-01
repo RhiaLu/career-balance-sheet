@@ -34,9 +34,6 @@
     --purple-400: #7F77DD;
     --purple-600: #534AB7;
     --purple-800: #3C3489;
-    --blue-50: #E6F1FB;
-    --blue-400: #378ADD;
-    --blue-600: #185FA5;
   }
 
   body {
@@ -44,95 +41,11 @@
     background: #faf9f6;
     color: #2c2c2a;
     min-height: 100vh;
-  }
-
-  /* LOGIN SCREEN */
-  #login-screen {
-    min-height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, var(--coral-50) 0%, var(--teal-50) 100%);
-  }
-
-  .login-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 3rem 2.5rem;
-    max-width: 420px;
-    width: 100%;
-    border: 1px solid var(--gray-100);
-    text-align: center;
-  }
-
-  .login-logo {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    background: var(--coral-400);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    font-size: 28px;
-  }
-
-  .login-card h1 {
-    font-size: 22px;
-    font-weight: 600;
-    color: #2c2c2a;
-    margin-bottom: 0.4rem;
-  }
-
-  .login-card p {
-    font-size: 14px;
-    color: var(--gray-600);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-  }
-
-  .login-card input[type="text"] {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1.5px solid var(--gray-100);
-    border-radius: 10px;
-    font-size: 15px;
-    color: #2c2c2a;
-    background: var(--gray-50);
-    outline: none;
-    transition: border-color 0.2s;
-    margin-bottom: 1rem;
-  }
-
-  .login-card input[type="text"]:focus {
-    border-color: var(--coral-400);
-    background: #fff;
-  }
-
-  .btn-primary {
-    background: var(--coral-400);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 0.75rem 2rem;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  .btn-primary:hover { background: var(--coral-600); }
-  .btn-primary:active { transform: scale(0.98); }
-
-  /* MAIN APP */
-  #app {
-    display: none;
-    min-height: 100vh;
     flex-direction: column;
   }
 
+  /* ── HEADER ── */
   header {
     background: #fff;
     border-bottom: 1px solid var(--gray-100);
@@ -145,26 +58,40 @@
     z-index: 10;
   }
 
+  .header-left { display: flex; align-items: center; gap: 12px; }
+
+  .header-logo {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--coral-400);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+
   .header-left h2 {
     font-size: 17px;
-    font-weight: 600;
+    font-weight: 700;
     color: #2c2c2a;
+    line-height: 1.2;
   }
 
   .header-left span {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--gray-400);
+    display: block;
   }
 
-  .user-badge {
+  .brand-badge {
     background: var(--coral-50);
     color: var(--coral-600);
     border-radius: 20px;
-    padding: 0.35rem 1rem;
-    font-size: 13px;
-    font-weight: 500;
+    padding: 0.3rem 0.9rem;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
   }
 
+  /* ── MAIN LAYOUT ── */
   main {
     flex: 1;
     padding: 2rem;
@@ -173,16 +100,234 @@
     width: 100%;
   }
 
+  /* ── HOW-TO GUIDE (inline, collapsible) ── */
+  .guide-panel {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--gray-100);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .guide-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    gap: 12px;
+  }
+
+  .guide-toggle:hover { background: var(--gray-50); }
+
+  .guide-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .guide-toggle-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--coral-600);
+    background: var(--coral-50);
+    border-radius: 4px;
+    padding: 2px 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .guide-toggle-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c2c2a;
+  }
+
+  .guide-toggle-sub {
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-top: 1px;
+  }
+
+  .guide-chevron {
+    font-size: 12px;
+    color: var(--gray-400);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .guide-chevron.open { transform: rotate(180deg); }
+
+  .guide-body {
+    border-top: 1px solid var(--gray-100);
+    padding: 1.25rem;
+    display: none;
+  }
+
+  .guide-body.open { display: block; }
+
+  .guide-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .guide-block {
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 0.9rem 0.85rem 0.9rem 1.1rem;
+    border: 1px solid var(--gray-100);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .guide-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+
+  .guide-block.block-col::before { background: var(--coral-400); }
+  .guide-block.block-row::before { background: var(--teal-400); }
+
+  .guide-block-label {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .guide-block.block-col .guide-block-label { color: var(--coral-600); }
+  .guide-block.block-row .guide-block-label { color: var(--teal-600); }
+
+  .guide-block-desc {
+    font-size: 10.5px;
+    color: var(--gray-600);
+    line-height: 1.55;
+    margin-bottom: 6px;
+  }
+
+  .guide-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .guide-example-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--gray-600);
+    line-height: 1.5;
+  }
+
+  .guide-example-chip .dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--coral-200);
+    flex-shrink: 0;
+  }
+
+  .guide-example-chip.teal-chip .dot { background: var(--teal-400); }
+
+  .guide-bottom {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .guide-steps {
+    display: flex;
+    flex: 1;
+    background: var(--gray-50);
+    border-radius: 10px;
+    border: 1px solid var(--gray-100);
+    overflow: hidden;
+  }
+
+  .guide-step {
+    flex: 1;
+    padding: 0.65rem 0.5rem;
+    text-align: center;
+    border-right: 1px solid var(--gray-100);
+    position: relative;
+  }
+
+  .guide-step:last-child { border-right: none; }
+
+  .step-num {
+    font-size: 8.5px;
+    font-weight: 700;
+    color: var(--coral-400);
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+
+  .step-text {
+    font-size: 10px;
+    color: var(--gray-600);
+    line-height: 1.4;
+  }
+
+  .score-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    background: var(--gray-50);
+    border-radius: 10px;
+    border: 1px solid var(--gray-100);
+    padding: 0.65rem 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .legend-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--gray-800);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .legend-chip {
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .legend-chip.high { background: #e1f5ee; color: #0f6e56; }
+  .legend-chip.mid  { background: #faeeda; color: #854F0B; }
+  .legend-chip.low  { background: #f1efe8; color: #5f5e5a; }
+
+  /* ── PAGE TITLE ROW ── */
+  .page-intro {
+    margin-bottom: 1rem;
+  }
+
+  .page-intro h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c2c2a;
+    margin-bottom: 0.2rem;
+  }
+
   .section-title {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--coral-600);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    margin-bottom: 0.75rem;
   }
 
-  /* TABLE WRAPPER */
+  /* ── TABLE ── */
   .table-wrapper {
     background: #fff;
     border-radius: 16px;
@@ -222,38 +367,9 @@
   td:last-child { border-right: none; }
   tr:last-child td { border-bottom: none; }
 
-  .criterion-cell {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .criterion-name {
-    font-weight: 500;
-    color: #2c2c2a;
-    font-size: 13px;
-  }
-
-  .criterion-name input {
-    border: none;
-    background: transparent;
-    font-weight: 500;
-    color: #2c2c2a;
-    font-size: 13px;
-    font-family: inherit;
-    width: 100%;
-    outline: none;
-    padding: 0;
-  }
-
-  .criterion-desc {
-    font-size: 11px;
-    color: var(--gray-400);
-  }
-
-  .importance-cell {
-    text-align: center;
-  }
+  .criterion-cell { display: flex; flex-direction: column; gap: 3px; }
+  .criterion-desc { font-size: 11px; color: var(--gray-400); }
+  .importance-cell { text-align: center; }
 
   .importance-select {
     border: 1px solid var(--gray-100);
@@ -285,14 +401,6 @@
 
   .score-input:focus { border-color: var(--teal-400); }
 
-  .score-display {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--teal-600);
-    text-align: center;
-  }
-
-  /* TOTALS ROW */
   .totals-row td {
     background: var(--gray-50);
     font-weight: 700;
@@ -303,7 +411,6 @@
 
   .totals-row td:first-child { text-align: left; color: var(--gray-600); }
 
-  /* OPTION HEADER */
   .option-header {
     display: flex;
     flex-direction: column;
@@ -324,12 +431,7 @@
     padding: 0;
   }
 
-  .option-emoji {
-    font-size: 16px;
-    line-height: 1;
-  }
-
-  /* BUTTONS */
+  /* ── BUTTONS ── */
   .add-btn {
     display: inline-flex;
     align-items: center;
@@ -388,7 +490,20 @@
 
   .reset-btn:hover { border-color: var(--gray-400); color: #2c2c2a; }
 
-  /* RESULTS */
+  .del-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-200);
+    font-size: 14px;
+    padding: 0 4px;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+
+  .del-btn:hover { color: #E24B4A; }
+
+  /* ── RESULTS ── */
   #results {
     display: none;
     background: #fff;
@@ -422,46 +537,18 @@
     border: 1.5px solid transparent;
   }
 
-  .result-card.rank-1 {
-    background: var(--teal-50);
-    border-color: var(--teal-400);
-  }
+  .result-card.rank-1 { background: var(--teal-50); border-color: var(--teal-400); }
+  .result-card.rank-2 { background: var(--coral-50); border-color: var(--coral-200); }
+  .result-card.rank-other { background: var(--gray-50); border-color: var(--gray-100); }
 
-  .result-card.rank-2 {
-    background: var(--coral-50);
-    border-color: var(--coral-200);
-  }
-
-  .result-card.rank-other {
-    background: var(--gray-50);
-    border-color: var(--gray-100);
-  }
-
-  .result-rank {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    margin-bottom: 4px;
-  }
-
+  .result-rank { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 4px; }
   .rank-1 .result-rank { color: var(--teal-600); }
   .rank-2 .result-rank { color: var(--coral-600); }
   .rank-other .result-rank { color: var(--gray-400); }
 
-  .result-name {
-    font-size: 15px;
-    font-weight: 700;
-    color: #2c2c2a;
-    margin-bottom: 6px;
-  }
+  .result-name { font-size: 15px; font-weight: 700; color: #2c2c2a; margin-bottom: 6px; }
 
-  .result-score {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 2px;
-  }
-
+  .result-score { font-size: 24px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
   .rank-1 .result-score { color: var(--teal-600); }
   .rank-2 .result-score { color: var(--coral-400); }
   .rank-other .result-score { color: var(--gray-400); }
@@ -489,7 +576,7 @@
     border-left: 3px solid var(--purple-400);
   }
 
-  /* FOOTER */
+  /* ── FOOTER ── */
   footer {
     text-align: center;
     padding: 1.5rem 2rem;
@@ -499,138 +586,167 @@
     background: #fff;
   }
 
-  footer strong {
-    color: var(--coral-600);
-    font-weight: 600;
-  }
-
-  .th-add {
-    background: var(--gray-50);
-    border-left: 1px dashed var(--gray-200) !important;
-  }
-
-  .weighted-score {
-    font-size: 11px;
-    color: var(--teal-400);
-    font-weight: 500;
-  }
-
-  .del-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--gray-200);
-    font-size: 14px;
-    padding: 0 4px;
-    line-height: 1;
-    transition: color 0.15s;
-  }
-
-  .del-btn:hover { color: #E24B4A; }
+  footer strong { color: var(--coral-600); font-weight: 600; }
 
   @media (max-width: 640px) {
     main { padding: 1rem; }
     header { padding: 0.75rem 1rem; }
-    .login-card { padding: 2rem 1.5rem; }
+    .guide-blocks { grid-template-columns: 1fr; }
+    .guide-bottom { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo">🌿</div>
-    <h1>生涯決策平衡表</h1>
-    <p>這裡沒有標準答案，只有最適合你的答案。<br>請先輸入你的名字，開始你的決策之旅。</p>
-    <input type="text" id="username-input" placeholder="請輸入你的名字…" maxlength="20" />
-    <button class="btn-primary" onclick="startApp()">開始 →</button>
-  </div>
-</div>
-
-<!-- MAIN APP -->
-<div id="app" style="display:none; flex-direction:column; min-height:100vh;">
-
-  <header>
-    <div class="header-left">
+<header>
+  <div class="header-left">
+    <div class="header-logo">🌿</div>
+    <div>
       <h2>生涯決策平衡表</h2>
-      <div><span id="header-subtitle">為你量身評估每一個選擇</span></div>
+      <span>為你量身評估每一個選擇</span>
     </div>
-    <div class="user-badge" id="user-badge">Hi, —</div>
-  </header>
+  </div>
+  <div class="brand-badge">@rhia_phd</div>
+</header>
 
-  <main>
-    <h1 id="page-title" style="font-size:20px;font-weight:700;color:#2c2c2a;margin-bottom:0.25rem;"></h1>
-    <p class="section-title" style="margin-bottom:1rem;">評估選項 × 生涯關鍵指標</p>
+<main>
 
-    <div class="table-wrapper">
-      <table id="matrix-table">
-        <thead id="table-head"></thead>
-        <tbody id="table-body"></tbody>
-        <tfoot id="table-foot"></tfoot>
-      </table>
+  <div class="page-intro">
+    <h1>生涯決策平衡表</h1>
+    <p class="section-title">評估選項 × 生涯關鍵指標</p>
+  </div>
+
+  <!-- ── HOW-TO GUIDE (collapsible) ── -->
+  <div class="guide-panel">
+    <div class="guide-toggle" onclick="toggleGuide(this)">
+      <div class="guide-toggle-left">
+        <span class="guide-toggle-badge">使用說明</span>
+        <div>
+          <div class="guide-toggle-title">如何使用這份平衡表？</div>
+          <div class="guide-toggle-sub">點擊展開 · 設定選項與評估項目後，為每格評分，最後計算加權結果</div>
+        </div>
+      </div>
+      <span class="guide-chevron open">▲</span>
     </div>
+    <div class="guide-body open">
+      <div class="guide-blocks">
+        <div class="guide-block block-col">
+          <div class="guide-block-label">↔ 選項（欄）｜你正在考慮的選擇</div>
+          <div class="guide-block-desc">每一欄代表一個人生選項，可直接點擊欄名修改，也可新增或刪除欄位。</div>
+          <div class="guide-block-desc" style="margin-top:5px;color:var(--coral-600);font-size:10px;font-weight:500;line-height:1.55;background:var(--coral-50);border-radius:5px;padding:4px 7px;">
+            ✦ 每格分數代表：這個選項能達成「你真正在乎的東西」的程度有多高（0 完全達不到 → 10 完全符合）
+          </div>
+          <div class="guide-examples">
+            <span class="guide-example-chip"><span class="dot"></span>離職，轉往新創公司</span>
+            <span class="guide-example-chip"><span class="dot"></span>留職，內部轉調其他部門</span>
+            <span class="guide-example-chip"><span class="dot"></span>Gap year，出國進修</span>
+          </div>
+        </div>
+        <div class="guide-block block-row">
+          <div class="guide-block-label">↕ 評估項目（列）｜你真正在乎的事</div>
+          <div class="guide-block-desc">每一列是一項對你重要的面向，可點擊名稱直接修改，或新增／刪除列。</div>
+          <div class="guide-block-desc" style="margin-top:5px;color:var(--teal-600);font-size:10px;font-weight:500;line-height:1.55;background:var(--teal-50);border-radius:5px;padding:4px 7px;">
+            ✦ 重要度代表：這個面向對你有多重要，分數越高加權越大，最終影響各選項的總分排名
+          </div>
+          <div class="guide-examples">
+            <span class="guide-example-chip teal-chip"><span class="dot"></span>薪資待遇</span>
+            <span class="guide-example-chip teal-chip"><span class="dot"></span>工作生活平衡</span>
+            <span class="guide-example-chip teal-chip"><span class="dot"></span>職場人際氛圍</span>
+          </div>
+        </div>
+      </div>
 
-    <div class="btn-row">
-      <button class="add-btn" onclick="addCriterion()">＋ 新增評估項目（列）</button>
-      <button class="add-btn" onclick="addOption()">＋ 新增選項（欄）</button>
+      <div class="guide-bottom">
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-num">STEP 1</div>
+            <div class="step-text">設定你的選項<br>（點擊欄名修改）</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">STEP 2</div>
+            <div class="step-text">設定重要度<br>（1–5 分）</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">STEP 3</div>
+            <div class="step-text">為每格評分<br>（0–10 分）</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">STEP 4</div>
+            <div class="step-text">計算加權結果<br>看誰得分最高</div>
+          </div>
+        </div>
+        <div class="score-legend">
+          <div class="legend-label">評分參考</div>
+          <span class="legend-chip high">7–10　非常符合</span>
+          <span class="legend-chip mid">4–6　&ensp;尚可接受</span>
+          <span class="legend-chip low">0–3　&ensp;不太符合</span>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="btn-row">
-      <button class="calc-btn" onclick="calculate()">✦ 計算加權分數</button>
-      <button class="reset-btn" onclick="resetScores()">重置分數</button>
-    </div>
+  <!-- ── MATRIX TABLE ── -->
+  <div class="table-wrapper">
+    <table id="matrix-table">
+      <thead id="table-head"></thead>
+      <tbody id="table-body"></tbody>
+      <tfoot id="table-foot"></tfoot>
+    </table>
+  </div>
 
-    <div id="results"></div>
-  </main>
+  <div class="btn-row">
+    <button class="add-btn" onclick="addCriterion()">＋ 新增評估項目（列）</button>
+    <button class="add-btn" onclick="addOption()">＋ 新增選項（欄）</button>
+  </div>
 
-  <footer>
-    <strong>@rhia_phd</strong> &nbsp;·&nbsp; 生涯諮詢 × 習慣養成 × 你的職涯顧問
-  </footer>
-</div>
+  <div class="btn-row">
+    <button class="calc-btn" onclick="calculate()">✦ 計算加權分數</button>
+    <button class="reset-btn" onclick="resetScores()">重置分數</button>
+  </div>
+
+  <div id="results"></div>
+
+</main>
+
+<footer>
+  <strong>@rhia_phd</strong> &nbsp;·&nbsp; 生涯諮詢 × 習慣養成 × 你的職涯顧問
+</footer>
 
 <script>
 /* ── state ── */
 const DEFAULT_CRITERIA = [
-  { name: "工作穩定性", desc: "就業保障、合約性質", importance: 4 },
-  { name: "薪資待遇",   desc: "月薪、年薪、獎金結構", importance: 5 },
-  { name: "通勤狀況",   desc: "距離、交通時間與方式", importance: 3 },
-  { name: "升遷發展空間", desc: "職涯晉升路徑與機會", importance: 4 },
+  { name: "工作穩定性",   desc: "就業保障、合約性質",   importance: 4 },
+  { name: "薪資待遇",     desc: "月薪、年薪、獎金結構", importance: 5 },
+  { name: "通勤狀況",     desc: "距離、交通時間與方式", importance: 3 },
+  { name: "升遷發展空間", desc: "職涯晉升路徑與機會",   importance: 4 },
   { name: "工作生活平衡", desc: "工時、彈性、加班文化", importance: 5 },
-  { name: "職場人際環境", desc: "主管風格、團隊氛圍",  importance: 4 },
-  { name: "學習成長機會", desc: "技能培訓、挑戰性",   importance: 3 },
-  { name: "健康與福利",  desc: "保險、健檢、身心支持", importance: 4 },
-  { name: "社會認同感",  desc: "工作意義、使命感",    importance: 3 },
+  { name: "職場人際環境", desc: "主管風格、團隊氛圍",   importance: 4 },
+  { name: "學習成長機會", desc: "技能培訓、挑戰性",     importance: 3 },
+  { name: "健康與福利",   desc: "保險、健檢、身心支持", importance: 4 },
+  { name: "社會認同感",   desc: "工作意義、使命感",     importance: 3 },
   { name: "地點與遷移需求", desc: "是否需搬家或異地工作", importance: 3 },
 ];
 
-let criteria = [];
-let options  = [];
-/* scores[cid][oid] = string value */
+let criteria = DEFAULT_CRITERIA.map((c, i) => ({ ...c, id: 'c' + i }));
+let options  = ['選項 A','選項 B','選項 C'].map((n, i) => ({ name: n, id: 'o' + i }));
 let scores   = {};
-let userName = '';
 
-/* ── boot ── */
-document.getElementById('username-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') startApp();
-});
+/* ── init ── */
+renderTable();
 
-function startApp() {
-  const name = document.getElementById('username-input').value.trim();
-  if (!name) { alert('請先輸入你的名字 🌿'); return; }
-  userName = name;
-  document.getElementById('login-screen').style.display = 'none';
-  const app = document.getElementById('app');
-  app.style.display = 'flex';
-  document.getElementById('user-badge').textContent = 'Hi, ' + name + ' 👋';
-  document.getElementById('page-title').innerHTML = `<span style="color:var(--coral-400)">${name}</span> 的生涯決策平衡表`;
-  criteria = DEFAULT_CRITERIA.map((c, i) => ({ ...c, id: 'c' + i }));
-  options  = ['選項 A','選項 B','選項 C'].map((n, i) => ({ name: n, id: 'o' + i }));
-  scores   = {};
-  renderTable();
+/* ── guide toggle ── */
+function toggleGuide(btn) {
+  const chevron = btn.querySelector('.guide-chevron');
+  const body    = btn.nextElementSibling;
+  const isOpen  = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+  btn.querySelector('.guide-toggle-sub').textContent = isOpen
+    ? '點擊展開 · 設定選項與評估項目後，為每格評分，最後計算加權結果'
+    : '點擊收合';
 }
 
-/* ── score helpers ── always read from DOM into scores{} before re-render ── */
+/* ── score helpers ── */
 function collectScores() {
   criteria.forEach(c => {
     if (!scores[c.id]) scores[c.id] = {};
@@ -641,12 +757,8 @@ function collectScores() {
   });
 }
 
-/* ── render (never wipes scores{}) ── */
-function renderTable() {
-  renderHead();
-  renderBody();
-  renderFoot();
-}
+/* ── render ── */
+function renderTable() { renderHead(); renderBody(); renderFoot(); }
 
 function renderHead() {
   const thead = document.getElementById('table-head');
@@ -673,7 +785,6 @@ function renderBody() {
   criteria.forEach(c => {
     if (!scores[c.id]) scores[c.id] = {};
     html += `<tr id="row-${c.id}">`;
-    /* criterion label */
     html += `<td>
       <div class="criterion-cell">
         <div style="display:flex;align-items:center;gap:6px;">
@@ -685,13 +796,11 @@ function renderBody() {
         <span class="criterion-desc">${esc(c.desc)}</span>
       </div>
     </td>`;
-    /* importance */
     html += `<td class="importance-cell">
       <select class="importance-select" onchange="criteria.find(x=>x.id==='${c.id}').importance=+this.value">
         ${[1,2,3,4,5].map(n=>`<option value="${n}"${n===c.importance?' selected':''}>${n}</option>`).join('')}
       </select>
     </td>`;
-    /* score cells – restore saved value */
     options.forEach(opt => {
       const saved = (scores[c.id] && scores[c.id][opt.id] != null && scores[c.id][opt.id] !== '') ? scores[c.id][opt.id] : '0';
       html += `<td>
@@ -708,14 +817,12 @@ function renderBody() {
 function renderFoot() {
   const tfoot = document.getElementById('table-foot');
   let html = '<tr class="totals-row"><td>加權總分</td><td></td>';
-  options.forEach(opt => {
-    html += `<td id="total_${opt.id}">—</td>`;
-  });
+  options.forEach(opt => { html += `<td id="total_${opt.id}">—</td>`; });
   html += '</tr>';
   tfoot.innerHTML = html;
 }
 
-/* ── add / delete (collect before re-render) ── */
+/* ── add / delete ── */
 function addCriterion() {
   collectScores();
   const id = 'c' + Date.now();
@@ -813,16 +920,13 @@ function showResults(totals) {
   const results = document.getElementById('results');
   results.innerHTML = html + summary + note + pdfBtn;
   results.style.display = 'block';
-
-  /* store sorted for PDF */
   results._sorted = sorted;
   results._maxPossible = maxPossible;
   results._totals = totals;
-
   results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-/* ── PDF：開新視窗列印，完整繁中，A4 滿版 ── */
+/* ── PDF export (with guide section) ── */
 function exportPDF() {
   collectScores();
   const resultsEl = document.getElementById('results');
@@ -831,10 +935,7 @@ function exportPDF() {
   const totals    = resultsEl._totals      || {};
   const date      = new Date().toLocaleDateString('zh-TW');
 
-  /* ── 評分矩陣表格 HTML ── */
-  /* 用百分比分配，不依賴像素估算 */
-  const cnameP = 22;
-  const iheadP = 10;
+  const cnameP = 22, iheadP = 10;
   const optP   = parseFloat(((100 - cnameP - iheadP) / options.length).toFixed(4));
 
   const colgroup = `<colgroup>
@@ -843,41 +944,36 @@ function exportPDF() {
     ${options.map(() => `<col style="width:${optP}%">`).join('')}
   </colgroup>`;
 
-  const optCols = options.map(o => `<th>${o.name}</th>`).join('');
-  const bodyRows = criteria.map((c, ri) => {
+  const optCols  = options.map(o => `<th>${o.name}</th>`).join('');
+  const bodyRows = criteria.map(c => {
     const cells = options.map(o => {
       const v = (scores[c.id]||{})[o.id];
       const n = (v === '' || v == null) ? 0 : parseFloat(v);
       const cls = n >= 7 ? 'score-high' : n >= 4 ? 'score-mid' : 'score-low';
       return `<td><span class="score-val ${cls}">${isNaN(n) ? '—' : n}</span></td>`;
     }).join('');
-    return `<tr><td class="cname">${c.name}</td><td class="icell" style="text-align:center">${c.importance}</td>${cells}</tr>`;
+    return `<tr><td class="cname">${c.name}</td><td class="icell">${c.importance}</td>${cells}</tr>`;
   }).join('');
   const totalCells = options.map(o => `<td class="tval">${totals[o.id] ?? '—'}</td>`).join('');
 
-  /* ── 排名結果 ── */
   const rankColors = ['#0f6e56','#993c1d','#5f5e5a'];
   const rankBg     = ['#e8f8f2','#fdf0eb','#f5f4f0'];
   const rankBorder = ['#1D9E75','#D85A30','#888780'];
   const rankBarClr = ['#1D9E75','#D85A30','#888780'];
-  const rankLabel  = ['🏆 首選','✦ 次選'];
-  const rankCards  = sorted.map((item, i) => {
-    const pct   = Math.round((item.score / maxP) * 100);
-    const label = rankLabel[i] || `第 ${i+1} 名`;
-    const color  = rankColors[i]  || '#888';
-    const bg     = rankBg[i]      || '#f5f5f5';
-    const border = rankBorder[i]  || '#ccc';
-    const barClr = rankBarClr[i]  || '#ccc';
-    return `<div class="rank-card" style="border-color:${border};background:${bg}">
-      <div class="rank-label" style="color:${color}">${label}</div>
+  const rankLbl    = ['🏆 首選','✦ 次選'];
+
+  const rankCards = sorted.map((item, i) => {
+    const pct    = Math.round((item.score / maxP) * 100);
+    const label  = rankLbl[i] || `第 ${i+1} 名`;
+    return `<div class="rank-card" style="border-color:${rankBorder[i]||'#ccc'};background:${rankBg[i]||'#f5f5f5'}">
+      <div class="rank-label" style="color:${rankColors[i]||'#888'}">${label}</div>
       <div class="rank-name">${item.name}</div>
-      <div class="rank-score" style="color:${color}">${item.score}</div>
+      <div class="rank-score" style="color:${rankColors[i]||'#888'}">${item.score}</div>
       <div class="rank-pct">符合度 ${pct}%</div>
-      <div class="rank-bar-wrap"><div class="rank-bar" style="width:${pct}%;background:${barClr}"></div></div>
+      <div class="rank-bar-wrap"><div class="rank-bar" style="width:${pct}%;background:${rankBarClr[i]||'#ccc'}"></div></div>
     </div>`;
   }).join('');
 
-  /* ── 排名說明文字 ── */
   let summaryText = '根據你的評分與重要度設定，目前的選項優先順序為：';
   summaryText += sorted.map((it, i) => `${i+1}. ${it.name}（${it.score} 分）`).join('、') + '。';
   if (sorted.length >= 2) {
@@ -886,152 +982,180 @@ function exportPDF() {
     summaryText += ` 首選「${sorted[0].name}」以 ${diff} 分的差距領先次選，符合度達 ${pct1}%。`;
   }
 
-  /* ── 完整 A4 HTML ── */
+  /* build guide HTML for PDF */
+  const guideHtml = `
+  <div class="pdf-guide">
+    <div class="pdf-guide-title">使用說明</div>
+    <div class="pdf-guide-grid">
+      <div class="pdf-guide-block pdf-col">
+        <div class="pdf-guide-lbl">↔ 選項（欄）｜你正在考慮的選擇</div>
+        <div class="pdf-guide-desc">每一欄代表一個人生選項，直接點擊欄名即可修改，也可新增或刪除欄位。</div>
+        <div class="pdf-guide-desc" style="margin-top:4px;color:#993C1D;background:#FAECE7;border-radius:4px;padding:3px 6px;font-weight:500;">✦ 每格分數 = 這個選項能達成「你真正在乎的東西」的程度（0 完全達不到 → 10 完全符合）</div>
+        <div class="pdf-guide-chips">
+          <span class="pdf-chip">離職，轉往新創公司</span>
+          <span class="pdf-chip">留職，內部轉調其他部門</span>
+          <span class="pdf-chip">Gap year，出國進修</span>
+        </div>
+      </div>
+      <div class="pdf-guide-block pdf-row">
+        <div class="pdf-guide-lbl">↕ 評估項目（列）｜你真正在乎的事</div>
+        <div class="pdf-guide-desc">每一列是一項對你重要的面向，可點擊名稱直接修改，或新增／刪除列。</div>
+        <div class="pdf-guide-desc" style="margin-top:4px;color:#0F6E56;background:#E1F5EE;border-radius:4px;padding:3px 6px;font-weight:500;">✦ 重要度 = 這個面向對你有多重要，分數越高加權越大，最終影響各選項的總分排名</div>
+        <div class="pdf-guide-chips">
+          <span class="pdf-chip teal">薪資待遇</span>
+          <span class="pdf-chip teal">工作生活平衡</span>
+          <span class="pdf-chip teal">職場人際氛圍</span>
+        </div>
+      </div>
+    </div>
+    <div class="pdf-guide-bottom">
+      <div class="pdf-steps">
+        <div class="pdf-step"><div class="pdf-step-num">STEP 1</div><div class="pdf-step-txt">設定你的選項</div></div>
+        <div class="pdf-step-arrow">›</div>
+        <div class="pdf-step"><div class="pdf-step-num">STEP 2</div><div class="pdf-step-txt">設定重要度 1–5</div></div>
+        <div class="pdf-step-arrow">›</div>
+        <div class="pdf-step"><div class="pdf-step-num">STEP 3</div><div class="pdf-step-txt">為每格評分 0–10</div></div>
+        <div class="pdf-step-arrow">›</div>
+        <div class="pdf-step"><div class="pdf-step-num">STEP 4</div><div class="pdf-step-txt">計算加權結果</div></div>
+      </div>
+      <div class="pdf-legend">
+        <span class="pdf-legend-label">評分參考</span>
+        <span class="score-high" style="display:inline-block;padding:1px 7px;border-radius:8px;font-size:7.5pt;font-weight:600;">7–10 非常符合</span>
+        <span class="score-mid"  style="display:inline-block;padding:1px 7px;border-radius:8px;font-size:7.5pt;font-weight:600;">4–6 尚可接受</span>
+        <span class="score-low"  style="display:inline-block;padding:1px 7px;border-radius:8px;font-size:7.5pt;font-weight:600;">0–3 不太符合</span>
+      </div>
+    </div>
+  </div>`;
+
   const html = `<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<title>生涯決策平衡表｜${userName}</title>
+<title>生涯決策平衡表</title>
 <style>
   @page { size: A4 portrait; margin: 12mm 14mm 12mm 14mm; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', 'Apple LiGothic', sans-serif;
-    font-size: 9pt;
-    color: #2c2c2a;
-    background: #fff;
-    width: 100%;
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+    font-size: 9pt; color: #2c2c2a; background: #fff; width: 100%;
   }
 
-  /* ── header ── */
+  /* header */
   .hd {
     display: flex; justify-content: space-between; align-items: center;
-    padding-bottom: 8px; margin-bottom: 12px;
+    padding-bottom: 8px; margin-bottom: 10px;
     border-bottom: 3px solid #D85A30;
   }
   .hd-left { display: flex; align-items: center; gap: 10px; }
-  .hd-accent {
-    width: 4px; height: 44px; background: #D85A30; border-radius: 2px; flex-shrink: 0;
-  }
-  .hd-title { font-size: 18pt; font-weight: 700; color: #2c2c2a; line-height: 1.1; }
-  .hd-name  { font-size: 10pt; color: #D85A30; font-weight: 600; margin-top: 2px; }
-  .hd-right { text-align: right; font-size: 7.5pt; color: #999; line-height: 1.8; }
-  .hd-brand { font-size: 8.5pt; font-weight: 700; color: #993C1D; }
+  .hd-accent { width: 4px; height: 40px; background: #D85A30; border-radius: 2px; flex-shrink: 0; }
+  .hd-title { font-size: 17pt; font-weight: 700; color: #2c2c2a; line-height: 1.1; }
+  .hd-sub   { font-size: 8.5pt; color: #D85A30; font-weight: 600; margin-top: 2px; }
+  .hd-right { text-align: right; font-size: 7pt; color: #999; line-height: 1.8; }
+  .hd-brand { font-size: 8pt; font-weight: 700; color: #993C1D; }
 
-  /* ── section label ── */
+  /* guide */
+  .pdf-guide {
+    background: #f8f7f4; border-radius: 8px; border: 1px solid #d3d1c7;
+    padding: 9px 10px; margin-bottom: 10px;
+  }
+  .pdf-guide-title {
+    font-size: 8pt; font-weight: 700; color: #993C1D;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 7px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #d3d1c7;
+  }
+  .pdf-guide-grid { display: flex; gap: 8px; margin-bottom: 7px; }
+  .pdf-guide-block {
+    flex: 1; background: #fff; border-radius: 6px;
+    border: 1px solid #d3d1c7; padding: 7px 8px 7px 11px;
+    position: relative; overflow: hidden;
+  }
+  .pdf-guide-block::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+  .pdf-col::before { background: #D85A30; }
+  .pdf-row::before { background: #1D9E75; }
+  .pdf-guide-lbl { font-size: 7.5pt; font-weight: 700; margin-bottom: 3px; }
+  .pdf-col .pdf-guide-lbl { color: #993C1D; }
+  .pdf-row .pdf-guide-lbl { color: #0F6E56; }
+  .pdf-guide-desc { font-size: 7pt; color: #5f5e5a; line-height: 1.5; margin-bottom: 4px; }
+  .pdf-guide-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+  .pdf-chip {
+    font-size: 6.5pt; color: #5f5e5a; background: #f1efe8;
+    border-radius: 4px; padding: 1px 6px;
+  }
+  .pdf-chip.teal { background: #e1f5ee; color: #0F6E56; }
+
+  .pdf-guide-bottom { display: flex; align-items: center; gap: 8px; }
+  .pdf-steps { display: flex; align-items: center; gap: 4px; flex: 1; }
+  .pdf-step { text-align: center; }
+  .pdf-step-num { font-size: 6.5pt; font-weight: 700; color: #D85A30; letter-spacing: 0.04em; }
+  .pdf-step-txt { font-size: 6.5pt; color: #5f5e5a; line-height: 1.4; white-space: nowrap; }
+  .pdf-step-arrow { font-size: 9pt; color: #b4b2a9; }
+  .pdf-legend { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+  .pdf-legend-label { font-size: 7pt; font-weight: 700; color: #444441; margin-right: 2px; }
+
+  /* section label */
   .sec {
     display: inline-block;
-    font-size: 8pt; font-weight: 700; color: #fff;
+    font-size: 7.5pt; font-weight: 700; color: #fff;
     background: #993C1D; border-radius: 3px;
-    padding: 2px 8px; margin: 12px 0 6px;
+    padding: 2px 7px; margin: 8px 0 5px;
     letter-spacing: 0.05em;
   }
 
-  /* ── matrix table ── */
+  /* table */
   table { width: 100%; border-collapse: collapse; font-size: 8.5pt; table-layout: fixed; }
   thead tr th {
-    background: #3c2c28; color: #fff;
-    font-weight: 600; padding: 6px 6px;
-    border: 1px solid #3c2c28;
-    text-align: center; word-break: break-word;
-    vertical-align: middle; line-height: 1.4;
+    background: #3c2c28; color: #fff; font-weight: 600;
+    padding: 5px 6px; border: 1px solid #3c2c28;
+    text-align: center; word-break: break-word; vertical-align: middle; line-height: 1.4;
   }
   thead tr th.chead { text-align: left; padding-left: 8px; }
-
   tbody tr:nth-child(odd)  td { background: #fff; }
   tbody tr:nth-child(even) td { background: #faf9f6; }
-  tbody tr:hover td { background: #fdf1ec; }
-
   td {
-    padding: 5px 6px; border: 1px solid #e8e6e0;
-    vertical-align: middle; word-break: break-word;
-    text-align: center;
+    padding: 4px 6px; border: 1px solid #e8e6e0;
+    vertical-align: middle; word-break: break-word; text-align: center;
   }
-  td.cname {
-    font-weight: 500; text-align: left; padding-left: 8px;
-    color: #2c2c2a; border-left: 3px solid #f0997b;
-  }
+  td.cname { font-weight: 500; text-align: left; padding-left: 8px; color: #2c2c2a; border-left: 3px solid #f0997b; }
   td.icell { color: #993C1D; font-weight: 700; }
-
-  /* score badge */
-  .score-val {
-    display: inline-block;
-    min-width: 28px; padding: 1px 5px;
-    border-radius: 10px; font-weight: 600; font-size: 8.5pt;
-  }
+  .score-val { display: inline-block; min-width: 26px; padding: 1px 5px; border-radius: 8px; font-weight: 600; font-size: 8pt; }
   .score-high { background: #e1f5ee; color: #0f6e56; }
   .score-mid  { background: #faeeda; color: #854F0B; }
   .score-low  { background: #f1efe8; color: #5f5e5a; }
+  .totals-row td { background: #2c2c2a !important; color: #fff !important; font-weight: 700; text-align: center; font-size: 9.5pt; padding: 6px; border: 1px solid #2c2c2a; }
+  .totals-row td.tlabel { text-align: left; padding-left: 8px; }
+  .totals-row td.tval { color: #9FE1CB !important; font-size: 10.5pt; }
 
-  /* totals row */
-  .totals-row td {
-    background: #2c2c2a !important; color: #fff !important;
-    font-weight: 700; text-align: center;
-    font-size: 10pt; padding: 7px 6px;
-    border: 1px solid #2c2c2a;
-  }
-  .totals-row td.tlabel { text-align: left; padding-left: 8px; color: #fff !important; }
-  .totals-row td.tval   { color: #9FE1CB !important; font-size: 11pt; }
+  /* rank cards */
+  .rank-row { display: flex; gap: 8px; margin: 4px 0 8px; }
+  .rank-card { flex: 1; border-radius: 8px; padding: 9px 7px; text-align: center; border: 1.5px solid; }
+  .rank-label { font-size: 7pt; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 3px; }
+  .rank-name  { font-size: 10.5pt; font-weight: 700; color: #2c2c2a; margin: 3px 0 3px; line-height: 1.2; }
+  .rank-score { font-size: 20pt; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+  .rank-pct   { font-size: 7pt; color: #888; }
+  .rank-bar-wrap { margin: 4px auto 0; width: 65%; height: 3px; background: #e8e6e0; border-radius: 2px; }
+  .rank-bar { height: 3px; border-radius: 2px; }
 
-  /* ── rank cards ── */
-  .rank-row { display: flex; gap: 10px; margin: 4px 0 10px; }
-  .rank-card {
-    flex: 1; border-radius: 8px; padding: 10px 8px;
-    text-align: center; border: 1.5px solid;
-  }
-  .rank-label { font-size: 7.5pt; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 3px; }
-  .rank-name  { font-size: 11pt; font-weight: 700; color: #2c2c2a; margin: 3px 0 4px; line-height: 1.2; }
-  .rank-score { font-size: 22pt; font-weight: 700; line-height: 1; margin-bottom: 2px; }
-  .rank-pct   { font-size: 7.5pt; color: #888; }
-  .rank-bar-wrap { margin: 5px auto 0; width: 70%; height: 4px; background: #e8e6e0; border-radius: 2px; }
-  .rank-bar { height: 4px; border-radius: 2px; }
-
-  /* ── summary ── */
-  .summary {
-    background: #faf3e8; border-left: 3px solid #BA7517;
-    border-radius: 0 6px 6px 0; padding: 8px 12px;
-    font-size: 8.5pt; color: #633806; line-height: 1.7; margin-bottom: 8px;
-  }
+  /* summary & note */
+  .summary { background: #faf3e8; border-left: 3px solid #BA7517; border-radius: 0 5px 5px 0; padding: 7px 10px; font-size: 8pt; color: #633806; line-height: 1.7; margin-bottom: 7px; }
   .summary strong { color: #854F0B; }
+  .note { background: #f4f3fe; border-left: 3px solid #7F77DD; border-radius: 0 5px 5px 0; padding: 7px 10px; font-size: 7.5pt; color: #3C3489; line-height: 1.75; }
 
-  /* ── note ── */
-  .note {
-    background: #f4f3fe; border-left: 3px solid #7F77DD;
-    border-radius: 0 6px 6px 0; padding: 8px 12px;
-    font-size: 8pt; color: #3C3489; line-height: 1.75;
-  }
+  /* footer */
+  .footer { margin-top: 10px; padding-top: 5px; border-top: 1px solid #d3d1c7; font-size: 6.5pt; color: #bbb; text-align: center; }
 
-  /* ── footer ── */
-  .footer {
-    margin-top: 12px; padding-top: 6px;
-    border-top: 1px solid #d3d1c7;
-    font-size: 7pt; color: #bbb; text-align: center;
-    letter-spacing: 0.03em;
-  }
-
-  /* screen only */
   .print-btn { display: none; }
   @media screen {
     body { padding: 24px 16px; background: #ede9e3; }
-    .page {
-      background: #fff; max-width: 794px; margin: 0 auto;
-      padding: 16mm 14mm;
-      box-shadow: 0 4px 24px rgba(0,0,0,.12);
-      border-radius: 4px;
-    }
-    .print-btn {
-      display: block; margin: 0 auto 20px;
-      background: #D85A30; color: #fff;
-      border: none; border-radius: 8px;
-      padding: 11px 32px; font-size: 14px;
-      font-family: inherit; cursor: pointer; font-weight: 600;
-      letter-spacing: 0.03em;
-    }
+    .page { background: #fff; max-width: 794px; margin: 0 auto; padding: 14mm 14mm; box-shadow: 0 4px 24px rgba(0,0,0,.12); border-radius: 4px; }
+    .print-btn { display: block; margin: 0 auto 20px; background: #D85A30; color: #fff; border: none; border-radius: 8px; padding: 10px 28px; font-size: 13px; font-family: inherit; cursor: pointer; font-weight: 600; }
     .print-btn:hover { background: #993C1D; }
   }
-  @media print {
-    .print-btn { display: none !important; }
-  }
+  @media print { .print-btn { display: none !important; } }
 </style>
 </head>
 <body>
@@ -1043,7 +1167,7 @@ function exportPDF() {
       <div class="hd-accent"></div>
       <div>
         <div class="hd-title">生涯決策平衡表</div>
-        <div class="hd-name">${userName} 的職涯選擇評估</div>
+        <div class="hd-sub">職涯選擇加權評估工具</div>
       </div>
     </div>
     <div class="hd-right">
@@ -1052,29 +1176,18 @@ function exportPDF() {
     </div>
   </div>
 
+  ${guideHtml}
+
   <div class="sec">▸ 評分矩陣</div>
   <table>
     ${colgroup}
-    <thead>
-      <tr>
-        <th class="chead">評估項目</th>
-        <th>重要度</th>
-        ${optCols}
-      </tr>
-    </thead>
+    <thead><tr><th class="chead">評估項目</th><th>重要度</th>${optCols}</tr></thead>
     <tbody>${bodyRows}</tbody>
-    <tfoot>
-      <tr class="totals-row">
-        <td class="tlabel">加權總分</td>
-        <td></td>
-        ${totalCells}
-      </tr>
-    </tfoot>
+    <tfoot><tr class="totals-row"><td class="tlabel">加權總分</td><td></td>${totalCells}</tr></tfoot>
   </table>
 
   <div class="sec">▸ 評估結果</div>
   <div class="rank-row">${rankCards}</div>
-
   <div class="summary">${summaryText}</div>
   <div class="note">💜 這份平衡表是你思考的起點，不是終點。數字可以整理你的偏好，但它無法衡量你內心真正的渴望。如果你還有困惑、還在猶豫，那很正常——重要的決定本來就值得慢慢想。你隨時可以尋求專業的生涯諮詢，和顧問一起深聊，找到屬於你自己的答案。🌿</div>
 
@@ -1102,8 +1215,6 @@ function resetScores() {
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
-/* ── no data persists after tab close — nothing stored in localStorage/sessionStorage ── */
 </script>
 </body>
 </html>
